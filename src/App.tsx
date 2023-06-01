@@ -1,11 +1,14 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios'
 
 function App() {
   
-  const clickFetch = () => {
-    console.log('fetch...')
+  const fetchWorker = () => {
+    axios.post('https://helloworker.ipfsummer789.workers.dev/post', {}).then(res => {
+      console.log(res)
+    })
   }
 
   return (
@@ -22,7 +25,7 @@ function App() {
         </a>
       </header>
       <div>
-        <input type="button" value="Fetch" onClick={clickFetch} />
+        <input type="button" value="Fetch" onClick={fetchWorker} />
       </div>
     </div>
   );
