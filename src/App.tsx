@@ -1,13 +1,34 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import axios from 'axios'
+import request from './request'
 
 function App() {
-  
+  const onClicker = () => {
+    console.log(process.env)
+  }
   const fetchWorker = () => {
-    axios.post('https://helloworker.ipfsummer789.workers.dev/post', {}).then(res => {
-      console.log(res)
+    request.get('/getKV').then(res => {
+      console.log('KV:', res)
+    })
+  }
+  const fetchVersion = () => {
+    request.get('/version').then(res => {
+      console.log('version:', res)
+    })
+  }
+  const fetchStuff = () => {
+    request.get('/stuff').then(res => {
+      console.log('stuff:', res)
+    })
+  }
+  const fetchPost = () => {
+    const params = {
+      name: 'test-post',
+      age: 20
+    }
+    request.post('/post', params).then(res => {
+      console.log('post:', res)
     })
   }
 
@@ -25,7 +46,11 @@ function App() {
         </a>
       </header>
       <div>
-        <input type="button" value="Fetch" onClick={fetchWorker} />
+        <input type="button" value="点击" onClick={onClicker} />
+        <input type="button" value="Fetch-KV" onClick={fetchWorker} />
+        <input type="button" value="Fetch-Version" onClick={fetchVersion} />
+        <input type="button" value="Fetch-Stuff" onClick={fetchStuff} />
+        <input type="button" value="Fetch-Post" onClick={fetchPost} />
       </div>
     </div>
   );
