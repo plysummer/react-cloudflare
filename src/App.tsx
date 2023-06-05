@@ -1,14 +1,22 @@
-import React from 'react';
+import { type ChangeEvent, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import request from './request'
 
+interface IParams {
+  key: string;
+}
+
 function App() {
+  const [params, setParams] = useState<IParams>({
+    key: ''
+  })
+
   const onClicker = () => {
     console.log(process.env)
   }
   const fetchWorker = () => {
-    request.get('/getKV').then(res => {
+    request.post('/getKV', params).then(res => {
       console.log('KV:', res)
     })
   }
@@ -31,7 +39,11 @@ function App() {
       console.log('post:', res)
     })
   }
-
+  const setKey = (e: ChangeEvent<HTMLInputElement>) => {
+    setParams({
+      key: e.target.value.trim()
+    })
+  }
   return (
     <div className="App">
       <header className="App-header">
@@ -47,10 +59,13 @@ function App() {
       </header>
       <div>
         <input type="button" value="点击" onClick={onClicker} />
-        <input type="button" value="Fetch-KV" onClick={fetchWorker} />
         <input type="button" value="Fetch-Version" onClick={fetchVersion} />
         <input type="button" value="Fetch-Stuff" onClick={fetchStuff} />
         <input type="button" value="Fetch-Post" onClick={fetchPost} />
+        <div>
+          <input type="text" value={params.key} onChange={setKey} />
+          <input type="button" value="Fetch-KV" onClick={fetchWorker} />
+        </div>
       </div>
     </div>
   );
